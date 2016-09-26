@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ParseToCSV {
@@ -30,12 +31,30 @@ public class ParseToCSV {
 		}
 	}
 	
-	public List<List<String>> readAll(){
-		List<List<String>> paramsList = new ArrayList<List<String>>();
+	public HashMap<Integer,List<String>> readAll(){
+		//List<List<String>> paramsList = new ArrayList<List<String>>();
+		HashMap<Integer,List<String>> paramsList2 = new HashMap<Integer,List<String>>();
+		int i=1;
 		for(String line: CSVlines){
 			String[] lineParams = line.split(",");
 			List<String> params = Arrays.asList(lineParams);
+			paramsList2.put(i, params);
+			//paramsList.add(params);
+			i++;
+		}
+		return paramsList2;
+	}
+	
+	public List<List<String>> lReadAll(){
+		List<List<String>> paramsList = new ArrayList<List<String>>();
+		//HashMap<Integer,List<String>> paramsList2 = new HashMap<Integer,List<String>>();
+		int i=1;
+		for(String line: CSVlines){
+			String[] lineParams = line.split(",");
+			List<String> params = Arrays.asList(lineParams);
+			//paramsList2.put(i, params);
 			paramsList.add(params);
+			i++;
 		}
 		return paramsList;
 	}
