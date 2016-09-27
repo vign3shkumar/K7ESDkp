@@ -1,5 +1,8 @@
 package com.k7es.test;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -12,6 +15,7 @@ import com.k7es.constants.DashboardWidgets;
 import com.k7es.po.Dashboard;
 import com.k7es.po.LoginPage;
 import com.k7es.userdata.Dashboard2;
+import com.k7es.userdata.L10NObjHelper;
 import com.k7es.userdata.ULoginPage;
 
 
@@ -22,10 +26,14 @@ public class TestBed extends TestManager
 	private LoginPage poLoginpage;	
 	private Dashboard poDashboardPage;
 	private Dashboard poDashboardPage2;
+	private L10NObjHelper dshbrdObjRep;
 	
 	@BeforeClass
-	public void initializePO(){
-		poLoginpage = PageFactory.initElements(driver, LoginPage.class);
+	public void initializePO() throws IOException{
+		poLoginpage = PageFactory.initElements(driver, LoginPage.class);		
+		String inp = "E:\\Products\\Eclipse\\WorkSpace\\K7ESBVT\\testData\\Dashboard.properties";
+		L10NObjHelper dshbrdObjRep = new L10NObjHelper(inp);
+		this.dshbrdObjRep = dshbrdObjRep;
 	}
 	
 	@Test(priority=1)
@@ -155,79 +163,42 @@ public class TestBed extends TestManager
 		verify.commitVerifyErrors();
 	}
 	
-	@Test(priority=10,dataProvider="activityWidget",dataProviderClass=Dashboard2.class)
-	public void activityWidget(String sI, String sActivity){
+	@Test(priority=10)
+	public void activityWidget(){
 		
 		Verify verify =  new Verify();
-		int i;
-		i=Integer.parseInt(sI);
-		switch(i){
-		case 0:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtTitle().equals(sActivity),
+		List<String> lWdgtAct30 = dshbrdObjRep.getProps("WDGT_ACT30");
+		List<String> lWidgets = dshbrdObjRep.getProps("WDGTS");
+		
+		verify.verifyTrue(poDashboardPage.getActivityWdgtTitle().equals(lWidgets.get(2)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtTitle()
-					+" Expected: "+sActivity);
-			break;
-		case 1:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_THREAT).equals(sActivity),
+					+" Expected: "+lWidgets.get(2));
+		
+			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_THREAT).equals(lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_THREAT)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_THREAT)
-					+" Expected: "+sActivity);
-			break;
-		case 2:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_DEVBLK).equals(sActivity),
+					+" Expected: "+lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_THREAT));
+			
+			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_DEVBLK).equals(lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_DEVBLK)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_DEVBLK)
-					+" Expected: "+sActivity);
-			break;
-		case 3:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_APPBLK).equals(sActivity),
+					+" Expected: "+lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_DEVBLK));
+			
+			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_APPBLK).equals(lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_APPBLK)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_APPBLK)
-					+" Expected: "+sActivity);
-			break;
-		case 4:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_WEBBLK).equals(sActivity),
+					+" Expected: "+lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_APPBLK));
+			
+			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_WEBBLK).equals(lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_WEBBLK)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_WEBBLK)
-					+" Expected: "+sActivity);
-			break;
-		case 5:
-			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_VULN).equals(sActivity),
+					+" Expected: "+lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_WEBBLK));
+			
+			verify.verifyTrue(poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_VULN).equals(lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_VULN)),
 					"Test Fail! Actual: "+poDashboardPage.getActivityWdgtLabel(Dashboard.LBL_ACTVTY_WDGT_VULN)
-					+" Expected: "+sActivity);
-			break;
-		case 11:
-			verify.verifyTrue(poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_THREAT_COUNT)
-					.equals(sActivity),
-					"Test Fail! Actual: "+poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_THREAT_COUNT)
-					+" Expected: "+sActivity);
-			break;
-		
-		case 22:
-			verify.verifyTrue(poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_DEVBLK_COUNT)
-					.equals(sActivity),
-					"Test Fail! Actual: "+poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_DEVBLK_COUNT)
-					+" Expected: "+sActivity);
-			break;
-		
-		case 33:
-			verify.verifyTrue(poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_APPBLK_COUNT)
-					.equals(sActivity),
-					"Test Fail! Actual: "+poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_APPBLK_COUNT)
-					+" Expected: "+sActivity);
-			break;
-		case 44:
-			verify.verifyTrue(poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_WEBBLK_COUNT)
-					.equals(sActivity),
-					"Test Fail! Actual: "+poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_WEBBLK_COUNT)
-					+" Expected: "+sActivity);
-			break;
-		case 55:
-			verify.verifyTrue(poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_VULN_COUNT)
-					.equals(sActivity),
-					"Test Fail! Actual: "+poDashboardPage.getCountActivityWdgt(Dashboard.LBL_ACTVTY_WDGT_VULN_COUNT)
-					+" Expected: "+sActivity);
-			break;
-		}
+					+" Expected: "+lWdgtAct30.get(Dashboard.LBL_ACTVTY_WDGT_VULN));			
 		
 		verify.commitVerifyErrors();
 	}
 	
+	public void TestMenu(){
+		
+	}
 	
 }

@@ -10,7 +10,7 @@ public class L10NObjHelper {
 	
 	Properties dbrdProps;
 	String defReturnval = null;
-	String sSplitterforList = "|";
+	String sSplitterforList = "\\|";
 	
 	public L10NObjHelper(String filename) throws IOException{
 		FileInputStream inDbrdStream = new FileInputStream(filename);

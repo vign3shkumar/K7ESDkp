@@ -1,5 +1,6 @@
 package com.k7es.po;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +22,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 
 import com.k7es.constants.DashboardWidgets;
-import com.k7es.userdata.DshbrdObj;
 import com.k7es.userdata.L10NObjHelper;
 
 
@@ -33,17 +33,25 @@ public class Dashboard {
 	public static final int LNK_CREATEGRP = 3;
 	
 	//Constants to access all options under Activity In 30 Days Widget.
-	public static final int LBL_ACTVTY_WDGT_THREAT = 1;
-	public static final int LBL_ACTVTY_WDGT_DEVBLK = 2;
-	public static final int LBL_ACTVTY_WDGT_APPBLK = 3;
-	public static final int LBL_ACTVTY_WDGT_WEBBLK = 4;
-	public static final int LBL_ACTVTY_WDGT_VULN = 5;
+	public static final int LBL_ACTVTY_WDGT_THREAT = 0;
+	public static final int LBL_ACTVTY_WDGT_DEVBLK = 1;
+	public static final int LBL_ACTVTY_WDGT_APPBLK = 2;
+	public static final int LBL_ACTVTY_WDGT_WEBBLK = 3;
+	public static final int LBL_ACTVTY_WDGT_VULN = 4;
 	
-	public static final int LBL_ACTVTY_WDGT_THREAT_COUNT = 11;
+	public static final int LBL_ACTVTY_WDGT_THREAT_COUNT = 21;
 	public static final int LBL_ACTVTY_WDGT_DEVBLK_COUNT = 22;
-	public static final int LBL_ACTVTY_WDGT_APPBLK_COUNT = 33;
-	public static final int LBL_ACTVTY_WDGT_WEBBLK_COUNT = 44;
-	public static final int LBL_ACTVTY_WDGT_VULN_COUNT = 55;
+	public static final int LBL_ACTVTY_WDGT_APPBLK_COUNT = 23;
+	public static final int LBL_ACTVTY_WDGT_WEBBLK_COUNT = 24;
+	public static final int LBL_ACTVTY_WDGT_VULN_COUNT = 25;
+	
+	public static final int TAB_DASHBOARD = 31;
+	public static final int TAB_MANAGECLNTS = 32;
+	public static final int TAB_APPCTRL = 33;
+	public static final int TAB_SRVRSTNG = 34;
+	public static final int TAB_ADMIN = 35;
+	public static final int TAB_REPORTS = 36; 
+	
 	
 	private WebDriver dashboardDriver;
 	private PageObjectHelper helper;
@@ -53,12 +61,6 @@ public class Dashboard {
 		dashboardDriver = driver;
 		PageObjectHelper helper = new PageObjectHelper(dashboardDriver);
 		this.helper = helper;
-	}
-	
-	private void DbrdObjReps(){
-		String inp = "E:\\Products\\Eclipse\\WorkSpace\\K7ESBVT\\testData\\Dashboard.properties";
-		L10NObjHelper dshbrdObjRep = new L10NObjHelper(inp);
-		this.dshbrdObjRep = dshbrdObjRep;
 	}
 	
 	/**
@@ -414,42 +416,42 @@ public class Dashboard {
 	}
 	
 	public String getActivityWdgtLabel(int opt){
-		if(opt == 1){
+		if(opt == Dashboard.LBL_ACTVTY_WDGT_THREAT){
 			return helper.getTextElement(lblThreatEvntIn30Day);
 		}
-		else if (opt == 2){
+		else if (opt == Dashboard.LBL_ACTVTY_WDGT_DEVBLK){
 			return helper.getTextElement(lblDevblokEvntIn30Day);
 		}
-		else if(opt == 3){
+		else if(opt == Dashboard.LBL_ACTVTY_WDGT_APPBLK){
 			return helper.getTextElement(lblAppblokEvntIn30Day);
 		}
-		else if(opt == 4){
+		else if(opt == Dashboard.LBL_ACTVTY_WDGT_WEBBLK){
 			return helper.getTextElement(lblWebblokEvntIn30Day);		
 		}
-		else if(opt == 5){
+		else if(opt == Dashboard.LBL_ACTVTY_WDGT_VULN){
 			return helper.getTextElement(lblVulnDetektEvntIn30Day);
 		}
 		return null;
 	}
 	
 	public String getCountActivityWdgt(int opt){
-		if(opt == 11){
+		if(opt == Dashboard.LBL_ACTVTY_WDGT_THREAT_COUNT){
 				return helper.getTextElement(lblThreatEvntCountIn30Day);
 			}
 		
-		else if (opt == 22){
+		else if (opt == Dashboard.LBL_ACTVTY_WDGT_APPBLK_COUNT){
 			return helper.getTextElement(lblAppblokEvntCountIn30Day);
 		}
 		
-		else if (opt == 33){
+		else if (opt == Dashboard.LBL_ACTVTY_WDGT_DEVBLK_COUNT){
 			return helper.getTextElement(lblDevblokEvntCountIn30Day);
 		}
 	
-		else if (opt == 44) {
+		else if (opt == Dashboard.LBL_ACTVTY_WDGT_WEBBLK_COUNT) {
 			return helper.getTextElement(lblWebblokEvntCountIn30Day);
 		}
 		
-		else if (opt == 55){
+		else if (opt == Dashboard.LBL_ACTVTY_WDGT_VULN_COUNT){
 			return helper.getTextElement(lblVulnDetektEvntCountIn30Day);
 		}
 		
@@ -474,7 +476,7 @@ public class Dashboard {
 		return false;
 	}
 	
-	public Boolean isRightMenu(int i){
+	public Boolean getTab(int i){
 		List<String> lnkMenus = dshbrdObjRep.getProps("TABS");
 		switch(i){
 		case 1:
@@ -504,12 +506,7 @@ public class Dashboard {
 			break;
 		}
 		return false;
-		
 		}
-		
-		return true;
-	}
-	
 	/*
 	 * Navigating to different tabs.
 	 */
